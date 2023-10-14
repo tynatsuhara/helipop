@@ -55,8 +55,9 @@ AhelipopCharacter::AhelipopCharacter()
 void AhelipopCharacter::MountSkateboard()
 {
 	if (!bOnSkateboard) {
-		GetCharacterMovement()->BrakingDecelerationWalking = 500; // TODO value
-		GetCharacterMovement()->BrakingDecelerationFalling = 200; // TODO value
+		GetCharacterMovement()->BrakingDecelerationWalking = 500;
+		GetCharacterMovement()->BrakingDecelerationFalling = 200;
+		GetCharacterMovement()->MaxWalkSpeed = 5;
 		bOnSkateboard = true;
 	}
 }
@@ -66,6 +67,7 @@ void AhelipopCharacter::DismountSkateboard()
 	if (bOnSkateboard) {
 		GetCharacterMovement()->BrakingDecelerationWalking = 2000;
 		GetCharacterMovement()->BrakingDecelerationFalling = 1500; // TODO value
+		GetCharacterMovement()->MaxWalkSpeed = 500;
 		bOnSkateboard = false;
 	}
 }
