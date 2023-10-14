@@ -44,6 +44,9 @@ class AhelipopCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation, meta = (AllowPrivateAccess = "true"))
+	bool bOnSkateboard;
+
 	/** The left leg mesh (optional sub-object). */
 	// UPROPERTY(Category=Character, EditDefaultsOnly, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
 	// TObjectPtr<USkeletalMeshComponent> MeshLegLeft;
