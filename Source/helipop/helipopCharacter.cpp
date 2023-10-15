@@ -55,9 +55,8 @@ AhelipopCharacter::AhelipopCharacter()
 void AhelipopCharacter::MountSkateboard()
 {
 	if (!bOnSkateboard) {
-		// Let's think about how we want to do this
-		//FTransform ft = GetCapsuleComponent()->GetRelativeTransform();
-		//GetCapsuleComponent()->SetRelativeLocation(ft.TransformPosition(FVector{ 0, 0, 100 }));
+		FTransform ft = GetMesh()->GetRelativeTransform();
+		GetMesh()->SetRelativeLocation(ft.TransformPosition(FVector{ 0, 0, 14 }));
 
 		GetCharacterMovement()->BrakingDecelerationWalking = 500;
 		GetCharacterMovement()->BrakingDecelerationFalling = 200;
@@ -69,6 +68,9 @@ void AhelipopCharacter::MountSkateboard()
 void AhelipopCharacter::DismountSkateboard()
 {
 	if (bOnSkateboard) {
+		FTransform ft = GetMesh()->GetRelativeTransform();
+		GetMesh()->SetRelativeLocation(ft.TransformPosition(FVector{ 0, 0, -14 }));
+
 		GetCharacterMovement()->BrakingDecelerationWalking = 2000;
 		GetCharacterMovement()->BrakingDecelerationFalling = 1500; // TODO value
 		GetCharacterMovement()->MaxWalkSpeed = 500;
