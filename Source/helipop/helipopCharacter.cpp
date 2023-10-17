@@ -55,6 +55,9 @@ AhelipopCharacter::AhelipopCharacter()
 void AhelipopCharacter::MountSkateboard()
 {
 	if (!bOnSkateboard) {
+		SkateboardUnderArm->SetActorHiddenInGame(true);
+		Skateboard->SetActorHiddenInGame(false);
+
 		FTransform ft = GetMesh()->GetRelativeTransform();
 		GetMesh()->SetRelativeLocation(ft.TransformPosition(FVector{ 0, 0, 14 }));
 
@@ -68,6 +71,9 @@ void AhelipopCharacter::MountSkateboard()
 void AhelipopCharacter::DismountSkateboard()
 {
 	if (bOnSkateboard) {
+		SkateboardUnderArm->SetActorHiddenInGame(false);
+		Skateboard->SetActorHiddenInGame(true);
+
 		FTransform ft = GetMesh()->GetRelativeTransform();
 		GetMesh()->SetRelativeLocation(ft.TransformPosition(FVector{ 0, 0, -14 }));
 

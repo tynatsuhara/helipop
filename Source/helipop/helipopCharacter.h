@@ -51,6 +51,9 @@ class AhelipopCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Skating, meta = (AllowPrivateAccess = "true"))
 	ASkateboard* Skateboard;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Skating, meta = (AllowPrivateAccess = "true"))
+	ASkateboard* SkateboardUnderArm;
+
 public:
 	AhelipopCharacter();
 
