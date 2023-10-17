@@ -16,7 +16,7 @@ public:
 
 // If you add a new trick, close Unreal and recompile or shit will get wacky
 UENUM(BlueprintType)
-enum Trick
+enum class Trick : uint8
 {
 	NONE,
 	OLLIE,

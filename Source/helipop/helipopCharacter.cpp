@@ -71,6 +71,8 @@ void AhelipopCharacter::MountSkateboard()
 void AhelipopCharacter::DismountSkateboard()
 {
 	if (bOnSkateboard) {
+		CurrentTrick = Trick::NONE;
+
 		SkateboardUnderArm->SetActorHiddenInGame(false);
 		Skateboard->SetActorHiddenInGame(true);
 
