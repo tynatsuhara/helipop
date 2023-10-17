@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "Skateboard.h"
 #include "helipopCharacter.generated.h"
 
 class USpringArmComponent;
@@ -46,6 +47,9 @@ class AhelipopCharacter : public ACharacter
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Skating, meta = (AllowPrivateAccess = "true"))
 	bool bOnSkateboard;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Skating, meta = (AllowPrivateAccess = "true"))
+	ASkateboard* Skateboard;
 
 public:
 	AhelipopCharacter();
