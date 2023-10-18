@@ -64,6 +64,7 @@ void AhelipopCharacter::MountSkateboard()
 		GetCharacterMovement()->BrakingDecelerationWalking = 500;
 		GetCharacterMovement()->BrakingDecelerationFalling = 200;
 		GetCharacterMovement()->MaxWalkSpeed = 5;
+		GetCharacterMovement()->RotationRate = FRotator{ 0, 100, 0 };
 		bOnSkateboard = true;
 	}
 }
@@ -82,6 +83,7 @@ void AhelipopCharacter::DismountSkateboard()
 		GetCharacterMovement()->BrakingDecelerationWalking = 2000;
 		GetCharacterMovement()->BrakingDecelerationFalling = 1500; // TODO value
 		GetCharacterMovement()->MaxWalkSpeed = 500;
+		GetCharacterMovement()->RotationRate = FRotator{ 0, 500, 0 };
 		bOnSkateboard = false;
 	}
 }
