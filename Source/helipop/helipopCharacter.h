@@ -66,6 +66,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DismountSkateboard();
+
+	UFUNCTION(BlueprintCallable)
+	void UpdateRotationSpeed();
 	
 
 protected:

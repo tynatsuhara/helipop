@@ -88,6 +88,22 @@ void AhelipopCharacter::DismountSkateboard()
 	}
 }
 
+void AhelipopCharacter::UpdateRotationSpeed()
+{
+	double rotSpeed = 500;
+
+	if (bOnSkateboard) {
+		if (GetCharacterMovement()->IsFalling()) {
+			rotSpeed = 800;
+		}
+		else {
+			rotSpeed = 100;
+		}
+	}
+
+	GetCharacterMovement()->RotationRate = FRotator{ 0, rotSpeed, 0 };
+}
+
 void AhelipopCharacter::BeginPlay()
 {
 	// Call the base class  
