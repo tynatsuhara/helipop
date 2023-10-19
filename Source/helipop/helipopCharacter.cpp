@@ -65,6 +65,7 @@ void AhelipopCharacter::MountSkateboard()
 		GetCharacterMovement()->BrakingDecelerationFalling = 200;
 		GetCharacterMovement()->MaxWalkSpeed = 5;
 		GetCharacterMovement()->RotationRate = FRotator{ 0, 100, 0 };
+
 		bOnSkateboard = true;
 	}
 }
@@ -84,6 +85,7 @@ void AhelipopCharacter::DismountSkateboard()
 		GetCharacterMovement()->BrakingDecelerationFalling = 1500; // TODO value
 		GetCharacterMovement()->MaxWalkSpeed = 500;
 		GetCharacterMovement()->RotationRate = FRotator{ 0, 500, 0 };
+
 		bOnSkateboard = false;
 	}
 }
@@ -94,10 +96,10 @@ void AhelipopCharacter::UpdateRotationSpeed()
 
 	if (bOnSkateboard) {
 		if (GetCharacterMovement()->IsFalling()) {
-			rotSpeed = 800;
+			rotSpeed = 600;
 		}
 		else {
-			rotSpeed = 100;
+			rotSpeed = 200;
 		}
 	}
 
@@ -150,19 +152,29 @@ void AhelipopCharacter::Move(const FInputActionValue& Value)
 
 	if (Controller != nullptr)
 	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+		if (bOnSkateboard) {
+			// add movement 
+			const float scale = 0.01;
+			AddMovementInput(GetActorForwardVector(), MovementVector.Y * scale);
+			AddMovementInput(GetActorRightVector(), MovementVector.X * scale);
 
-		// get forward vector
-		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-	
-		// get right vector 
-		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+			bPushing = MovementVector.Y > 0;
+		}
+		else {
+			// forward walks in the direction the camera is facing
+			const FRotator Rotation = Controller->GetControlRotation();
+			const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// add movement 
-		AddMovementInput(ForwardDirection, MovementVector.Y);
-		AddMovementInput(RightDirection, MovementVector.X);
+			// get forward vector
+			const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+
+			// get right vector 
+			const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+			// add movement 
+			AddMovementInput(ForwardDirection, MovementVector.Y);
+			AddMovementInput(RightDirection, MovementVector.X);
+		}
 	}
 }
 

@@ -58,6 +58,9 @@ class AhelipopCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Skating, meta = (AllowPrivateAccess = "true"))
 	Trick CurrentTrick;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Skating, meta = (AllowPrivateAccess = "true"))
+	bool bPushing;
+
 public:
 	AhelipopCharacter();
 
