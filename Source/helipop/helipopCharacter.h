@@ -75,6 +75,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void HandleCollision(UPrimitiveComponent* MyComp, FVector HitNormal);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void Ragdoll();
 	
 
 protected:

@@ -132,19 +132,23 @@ void AhelipopCharacter::HandleCollision(UPrimitiveComponent* MyComp, FVector Hit
 		const auto landingAngle = acos(dot) * 180 / PI;
 		const bool shouldRagdollBasedOnSpeed = xySpeed > 700;
 		const bool landingSideways = landingAngle >= landingAngleTolerance && landingAngle <= 180 - landingAngleTolerance;
-		if (landingSideways) {
-			// TODO ragdoll
-			UE_LOG(LogTemplateCharacter, Log, TEXT("Ragdoll!"));
+		if (shouldRagdollBasedOnSpeed && landingSideways) {
+			Ragdoll();
 		}
 	}
 	else {
 		const bool shouldRagdollBasedOnSpeed = xySpeed > 1000;
 		if (shouldRagdollBasedOnSpeed) {
-			// TODO ragdoll
-			UE_LOG(LogTemplateCharacter, Log, TEXT("Ragdoll!"));
+			Ragdoll();
 		}
 	}
 }
+
+//void AhelipopCharacter::Ragdoll()
+//{
+//	// blueprint should override this
+//	UE_LOG(LogTemplateCharacter, Log, TEXT("Ragdoll!"));
+//}
 
 void AhelipopCharacter::BeginPlay()
 {
