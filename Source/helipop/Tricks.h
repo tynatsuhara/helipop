@@ -20,5 +20,7 @@ enum class Trick : uint8
 {
 	NONE,
 	OLLIE,
-	GRAB
+	GRAB,
+	KICKFLIP,
+	HEELFLIP
 };
