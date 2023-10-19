@@ -155,7 +155,12 @@ void AhelipopCharacter::Move(const FInputActionValue& Value)
 		if (bOnSkateboard) {
 			// add movement 
 			const float scale = 0.01;
-			AddMovementInput(GetActorForwardVector(), MovementVector.Y * scale);
+
+			// going backwards doesn't really work
+			if (MovementVector.Y > 0) {
+				AddMovementInput(GetActorForwardVector(), MovementVector.Y * scale);
+			}
+
 			AddMovementInput(GetActorRightVector(), MovementVector.X * scale);
 
 			bPushing = MovementVector.Y > 0;
