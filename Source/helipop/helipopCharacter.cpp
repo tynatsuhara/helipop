@@ -113,7 +113,6 @@ void AhelipopCharacter::HandleCollision(UPrimitiveComponent* MyComp, FVector Hit
 	}
 
 	// We don't really care about z velocity because you can land (assuming you're landing upright)
-	// TODO do we need MyComp or can we just use This?
 	auto v = MyComp->GetComponentVelocity();
 	v.Z = 0;
 	const auto xySpeed = v.Length();
@@ -125,6 +124,7 @@ void AhelipopCharacter::HandleCollision(UPrimitiveComponent* MyComp, FVector Hit
 	const bool landing = upDot >= -uprightAngleTolerance && upDot <= uprightAngleTolerance;
 
 	if (landing) {
+		// I don't really understand why we have 2 different velocities which behave differently
 		auto velocity = GetVelocity();
 		velocity.Normalize();
 		const auto dot = velocity.Dot(GetActorForwardVector());
@@ -143,12 +143,6 @@ void AhelipopCharacter::HandleCollision(UPrimitiveComponent* MyComp, FVector Hit
 		}
 	}
 }
-
-//void AhelipopCharacter::Ragdoll()
-//{
-//	// blueprint should override this
-//	UE_LOG(LogTemplateCharacter, Log, TEXT("Ragdoll!"));
-//}
 
 void AhelipopCharacter::BeginPlay()
 {
