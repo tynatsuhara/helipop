@@ -106,6 +106,46 @@ void AhelipopCharacter::UpdateRotationSpeed()
 	GetCharacterMovement()->RotationRate = FRotator{ 0, rotSpeed, 0 };
 }
 
+void AhelipopCharacter::HandleCollision(UPrimitiveComponent* MyComp, FVector HitNormal)
+{
+	if (!bOnSkateboard) {
+		return;
+	}
+
+	// We don't really care about z velocity because you can land (assuming you're landing upright)
+	// TODO do we need MyComp or can we just use This?
+	auto v = MyComp->GetComponentVelocity();
+	v.Z = 0;
+	const auto xySpeed = v.Length();
+
+	const auto up = GetActorUpVector();
+	const auto upDot = acos(up.Dot(HitNormal)) * 180/PI;
+
+	const int uprightAngleTolerance = 10;
+	const bool landing = upDot >= -uprightAngleTolerance && upDot <= uprightAngleTolerance;
+
+	if (landing) {
+		auto velocity = GetVelocity();
+		velocity.Normalize();
+		const auto dot = velocity.Dot(GetActorForwardVector());
+		const int landingAngleTolerance = 35;
+		const auto landingAngle = acos(dot) * 180 / PI;
+		const bool shouldRagdollBasedOnSpeed = xySpeed > 700;
+		const bool landingSideways = landingAngle >= landingAngleTolerance && landingAngle <= 180 - landingAngleTolerance;
+		if (landingSideways) {
+			// TODO ragdoll
+			UE_LOG(LogTemplateCharacter, Log, TEXT("Ragdoll!"));
+		}
+	}
+	else {
+		const bool shouldRagdollBasedOnSpeed = xySpeed > 1000;
+		if (shouldRagdollBasedOnSpeed) {
+			// TODO ragdoll
+			UE_LOG(LogTemplateCharacter, Log, TEXT("Ragdoll!"));
+		}
+	}
+}
+
 void AhelipopCharacter::BeginPlay()
 {
 	// Call the base class  

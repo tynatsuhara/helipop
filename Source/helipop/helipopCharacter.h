@@ -72,6 +72,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateRotationSpeed();
+
+	UFUNCTION(BlueprintCallable)
+	void HandleCollision(UPrimitiveComponent* MyComp, FVector HitNormal);
 	
 
 protected:
