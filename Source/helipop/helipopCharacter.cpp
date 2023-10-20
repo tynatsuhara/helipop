@@ -61,7 +61,7 @@ void AhelipopCharacter::MountSkateboard()
 		FTransform ft = GetMesh()->GetRelativeTransform();
 		GetMesh()->SetRelativeLocation(ft.TransformPosition(FVector{ 0, 0, 14 }));
 
-		GetCharacterMovement()->BrakingDecelerationWalking = 500;
+		GetCharacterMovement()->BrakingDecelerationWalking = 250;
 		GetCharacterMovement()->BrakingDecelerationFalling = 200;
 		GetCharacterMovement()->MaxWalkSpeed = 5;
 		GetCharacterMovement()->RotationRate = FRotator{ 0, 100, 0 };
@@ -82,7 +82,7 @@ void AhelipopCharacter::DismountSkateboard()
 		GetMesh()->SetRelativeLocation(ft.TransformPosition(FVector{ 0, 0, -14 }));
 
 		GetCharacterMovement()->BrakingDecelerationWalking = 2000;
-		GetCharacterMovement()->BrakingDecelerationFalling = 1500; // TODO value
+		GetCharacterMovement()->BrakingDecelerationFalling = 1500;
 		GetCharacterMovement()->MaxWalkSpeed = 500;
 		GetCharacterMovement()->RotationRate = FRotator{ 0, 500, 0 };
 
@@ -177,6 +177,8 @@ void AhelipopCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AhelipopCharacter::Move);
+		// Call again once "completed" to reset vars
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Completed, this, &AhelipopCharacter::Move);
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AhelipopCharacter::Look);
