@@ -61,6 +61,9 @@ class AhelipopCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Skating, meta = (AllowPrivateAccess = "true"))
 	bool bPushing;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Skating, meta = (AllowPrivateAccess = "true"))
+	bool bRidingSwitch;
+
 public:
 	AhelipopCharacter();
 

@@ -131,9 +131,13 @@ void AhelipopCharacter::HandleCollision(UPrimitiveComponent* MyComp, FVector Hit
 		const int landingAngleTolerance = 35;
 		const auto landingAngle = acos(dot) * 180 / PI;
 		const bool shouldRagdollBasedOnSpeed = xySpeed > 700;
-		const bool landingSideways = landingAngle >= landingAngleTolerance && landingAngle <= 180 - landingAngleTolerance;
-		if (shouldRagdollBasedOnSpeed && landingSideways) {
+		const bool landingForward = landingAngle < landingAngleTolerance;
+		const bool landingSwitch = landingAngle > 180 - landingAngleTolerance;
+		if (shouldRagdollBasedOnSpeed && !landingForward && !landingSwitch) {
 			Ragdoll();
+		}
+		else {
+			bRidingSwitch = landingSwitch;
 		}
 	}
 	else {
@@ -191,10 +195,10 @@ void AhelipopCharacter::Move(const FInputActionValue& Value)
 	if (Controller != nullptr)
 	{
 		if (bOnSkateboard) {
-			// add movement 
+			// skating velocity comes from the animation pushing hook, this block is just used to orient them in the right direction
 			const float scale = 0.01;
 
-			// going backwards doesn't really work
+			// we only allow skating forward
 			if (MovementVector.Y > 0) {
 				AddMovementInput(GetActorForwardVector(), MovementVector.Y * scale);
 			}
