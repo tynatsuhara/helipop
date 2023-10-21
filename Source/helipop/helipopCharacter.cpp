@@ -74,6 +74,7 @@ void AhelipopCharacter::DismountSkateboard()
 {
 	if (bOnSkateboard) {
 		CurrentTrick = Trick::NONE;
+		bRidingSwitch = false;
 
 		SkateboardUnderArm->SetActorHiddenInGame(false);
 		Skateboard->SetActorHiddenInGame(true);
@@ -138,6 +139,8 @@ void AhelipopCharacter::HandleCollision(UPrimitiveComponent* MyComp, FVector Hit
 		}
 		else {
 			bRidingSwitch = landingSwitch;
+			// This "works", but it looks bad, and changing scale fucks up other things
+			//GetMesh()->SetRelativeScale3D(FVector(1, bRidingSwitch ? -1 : 1, 1));
 		}
 	}
 	else {
