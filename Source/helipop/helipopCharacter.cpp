@@ -64,7 +64,6 @@ void AhelipopCharacter::MountSkateboard()
 		GetCharacterMovement()->BrakingDecelerationWalking = 250;
 		GetCharacterMovement()->BrakingDecelerationFalling = 200;
 		GetCharacterMovement()->MaxWalkSpeed = 5;
-		GetCharacterMovement()->RotationRate = FRotator{ 0, 100, 0 };
 
 		bOnSkateboard = true;
 	}
@@ -74,7 +73,6 @@ void AhelipopCharacter::DismountSkateboard()
 {
 	if (bOnSkateboard) {
 		CurrentTrick = Trick::NONE;
-		bRidingSwitch = false;
 
 		SkateboardUnderArm->SetActorHiddenInGame(false);
 		Skateboard->SetActorHiddenInGame(true);
@@ -85,7 +83,6 @@ void AhelipopCharacter::DismountSkateboard()
 		GetCharacterMovement()->BrakingDecelerationWalking = 2000;
 		GetCharacterMovement()->BrakingDecelerationFalling = 1500;
 		GetCharacterMovement()->MaxWalkSpeed = 500;
-		GetCharacterMovement()->RotationRate = FRotator{ 0, 500, 0 };
 
 		bOnSkateboard = false;
 	}
@@ -131,16 +128,17 @@ void AhelipopCharacter::HandleCollision(UPrimitiveComponent* MyComp, FVector Hit
 		const auto dot = velocity.Dot(GetActorForwardVector());
 		const int landingAngleTolerance = 35;
 		const auto landingAngle = acos(dot) * 180 / PI;
+		UE_LOG(LogTemp, Warning, TEXT("%f"), landingAngle);
 		const bool shouldRagdollBasedOnSpeed = xySpeed > 700;
-		const bool landingForward = landingAngle < landingAngleTolerance;
-		const bool landingSwitch = landingAngle > 180 - landingAngleTolerance;
-		if (shouldRagdollBasedOnSpeed && !landingForward && !landingSwitch) {
+		const bool landingForward = isnan(landingAngle) || landingAngle < landingAngleTolerance;
+		const bool landingOpposite = landingAngle > 180 - landingAngleTolerance;
+		if (shouldRagdollBasedOnSpeed && !landingForward && !landingOpposite) {
 			Ragdoll();
 		}
-		else if (bRidingSwitch != landingSwitch) {
-			bRidingSwitch = landingSwitch;
+		else if (landingOpposite) {
+			bRidingSwitch = !bRidingSwitch;
 			GetMesh()->SetRelativeScale3D(FVector(bRidingSwitch ? -1 : 1, 1, 1));
-			GetMesh()->AddLocalRotation(FRotator(0, 180, 0));
+			AddActorLocalRotation(FRotator(0, 180, 0));
 		}
 	}
 	else {
