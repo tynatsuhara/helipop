@@ -137,10 +137,10 @@ void AhelipopCharacter::HandleCollision(UPrimitiveComponent* MyComp, FVector Hit
 		if (shouldRagdollBasedOnSpeed && !landingForward && !landingSwitch) {
 			Ragdoll();
 		}
-		else {
+		else if (bRidingSwitch != landingSwitch) {
 			bRidingSwitch = landingSwitch;
-			// This "works", but it looks bad, and changing scale fucks up other things
-			//GetMesh()->SetRelativeScale3D(FVector(1, bRidingSwitch ? -1 : 1, 1));
+			GetMesh()->SetRelativeScale3D(FVector(bRidingSwitch ? -1 : 1, 1, 1));
+			GetMesh()->AddLocalRotation(FRotator(0, 180, 0));
 		}
 	}
 	else {
