@@ -129,6 +129,7 @@ void AhelipopCharacter::HandleCollision(UPrimitiveComponent* MyComp, FVector Hit
 		const int landingAngleTolerance = 35;
 		const auto landingAngle = acos(dot) * 180 / PI;
 		UE_LOG(LogTemp, Warning, TEXT("%f"), landingAngle);
+
 		const bool shouldRagdollBasedOnSpeed = xySpeed > 700;
 		const bool landingForward = isnan(landingAngle) || landingAngle < landingAngleTolerance;
 		const bool landingOpposite = landingAngle > 180 - landingAngleTolerance;

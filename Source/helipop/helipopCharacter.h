@@ -81,7 +81,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void Ragdoll();
-	
+
 
 protected:
 
