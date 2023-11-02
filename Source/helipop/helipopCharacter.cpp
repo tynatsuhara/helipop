@@ -52,6 +52,11 @@ AhelipopCharacter::AhelipopCharacter()
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 }
 
+void AhelipopCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+}
+
 void AhelipopCharacter::MountSkateboard()
 {
 	if (!bOnSkateboard) {

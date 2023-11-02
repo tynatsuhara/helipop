@@ -67,6 +67,8 @@ class AhelipopCharacter : public ACharacter
 public:
 	AhelipopCharacter();
 
+	void Tick(float DeltaSeconds) override;
+
 	UFUNCTION(BlueprintCallable)
 	void MountSkateboard();
 
