@@ -65,7 +65,7 @@ class AhelipopCharacter : public ACharacter
 	bool bRidingSwitch;
 
 public:
-	AhelipopCharacter();
+	AhelipopCharacter(const FObjectInitializer& ObjectInitializer);
 
 	void Tick(float DeltaSeconds) override;
 

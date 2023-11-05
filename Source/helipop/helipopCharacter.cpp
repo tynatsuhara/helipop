@@ -11,13 +11,17 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "UObject/UObjectGlobals.h"
+#include <SkaterCharacterMovement.h>
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 //////////////////////////////////////////////////////////////////////////
 // AhelipopCharacter
 
-AhelipopCharacter::AhelipopCharacter()
+
+AhelipopCharacter::AhelipopCharacter(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.SetDefaultSubobjectClass<USkaterCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -55,6 +59,12 @@ AhelipopCharacter::AhelipopCharacter()
 void AhelipopCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+
+	//FRotator DeltaRot = GetCharacterMovement()->GetDeltaRotation(DeltaSeconds);
+	//FRotator CurrentRotation = GetCharacterMovement()->UpdatedComponent->GetComponentRotation(); // Normalized
+	//FRotator DesiredRotation = GetCharacterMovement()->ComputeOrientToMovementRotation(CurrentRotation, DeltaSeconds, DeltaRot);
+	//DesiredRotation.Normalize();
+	//GetCharacterMovement()->MoveUpdatedComponent(FVector::ZeroVector, DesiredRotation, /*bSweep*/ false);
 }
 
 void AhelipopCharacter::MountSkateboard()
@@ -66,9 +76,13 @@ void AhelipopCharacter::MountSkateboard()
 		FTransform ft = GetMesh()->GetRelativeTransform();
 		GetMesh()->SetRelativeLocation(ft.TransformPosition(FVector{ 0, 0, 14 }));
 
+		//GetCharacterMovement()->BrakingDecelerationFlying = 250;
+		// TODO maybe remove some of these?
 		GetCharacterMovement()->BrakingDecelerationWalking = 250;
 		GetCharacterMovement()->BrakingDecelerationFalling = 200;
 		GetCharacterMovement()->MaxWalkSpeed = 5;
+
+		//GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
 
 		bOnSkateboard = true;
 	}
@@ -88,6 +102,8 @@ void AhelipopCharacter::DismountSkateboard()
 		GetCharacterMovement()->BrakingDecelerationWalking = 2000;
 		GetCharacterMovement()->BrakingDecelerationFalling = 1500;
 		GetCharacterMovement()->MaxWalkSpeed = 500;
+
+		//GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
 
 		bOnSkateboard = false;
 	}
