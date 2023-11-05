@@ -76,13 +76,10 @@ void AhelipopCharacter::MountSkateboard()
 		FTransform ft = GetMesh()->GetRelativeTransform();
 		GetMesh()->SetRelativeLocation(ft.TransformPosition(FVector{ 0, 0, 14 }));
 
-		//GetCharacterMovement()->BrakingDecelerationFlying = 250;
-		// TODO maybe remove some of these?
 		GetCharacterMovement()->BrakingDecelerationWalking = 250;
 		GetCharacterMovement()->BrakingDecelerationFalling = 200;
 		GetCharacterMovement()->MaxWalkSpeed = 5;
-
-		//GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
+		GetCharacterMovement()->MaxStepHeight = 0;
 
 		bOnSkateboard = true;
 	}
@@ -102,8 +99,7 @@ void AhelipopCharacter::DismountSkateboard()
 		GetCharacterMovement()->BrakingDecelerationWalking = 2000;
 		GetCharacterMovement()->BrakingDecelerationFalling = 1500;
 		GetCharacterMovement()->MaxWalkSpeed = 500;
-
-		//GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
+		GetCharacterMovement()->MaxStepHeight = 45;
 
 		bOnSkateboard = false;
 	}
@@ -137,10 +133,14 @@ void AhelipopCharacter::HandleCollision(UPrimitiveComponent* MyComp, FVector Hit
 	const auto xySpeed = v.Length();
 
 	const auto up = GetActorUpVector();
+	// Should be 0 if they are landing directly vertically
 	const auto upDot = acos(up.Dot(HitNormal)) * 180/PI;
 
-	const int uprightAngleTolerance = 10;
+	const bool falling = GetCharacterMovement()->IsFalling();
+	const int uprightAngleTolerance = 20;
 	const bool landing = upDot >= -uprightAngleTolerance && upDot <= uprightAngleTolerance;
+
+	UE_LOG(LogTemp, Warning, TEXT("upDot: %f"), upDot);
 
 	if (landing) {
 		// I don't really understand why we have 2 different velocities which behave differently
@@ -149,7 +149,7 @@ void AhelipopCharacter::HandleCollision(UPrimitiveComponent* MyComp, FVector Hit
 		const auto dot = velocity.Dot(GetActorForwardVector());
 		const int landingAngleTolerance = 35;
 		const auto landingAngle = acos(dot) * 180 / PI;
-		UE_LOG(LogTemp, Warning, TEXT("%f"), landingAngle);
+		UE_LOG(LogTemp, Warning, TEXT("landingAngle: %f"), landingAngle);
 
 		const bool shouldRagdollBasedOnSpeed = xySpeed > 700;
 		const bool landingForward = isnan(landingAngle) || landingAngle < landingAngleTolerance;
